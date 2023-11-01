@@ -3,8 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-
-
+require('dotenv').config()
 
 
 const app = express();
@@ -17,7 +16,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb+srv://petuneotreek:pokemon1@cluster0.zn7fkrv.mongodb.net/',{useNewUrlParser:true, useUnifiedTopology:true})
+mongoose.connect(process.env.MONGOURI,{useNewUrlParser:true, useUnifiedTopology:true})
 .then(() =>{
     console.log('is connected to the database mongo');
 })
