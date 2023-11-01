@@ -17,6 +17,16 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
+mongoose.connect('mongodb+srv://petuneotreek:pokemon1@cluster0.zn7fkrv.mongodb.net/',{useNewUrlParser:true, useUnifiedTopology:true})
+.then(() =>{
+    console.log('is connected to the database mongo');
+})
+.catch(e => console.log(`this is the error${e}`))
+
+
+app.listen(port,()=>{
+    console.log(`this is server ${port}`)
+})
 
 
 
