@@ -2,7 +2,7 @@ import {StyleSheet,Text,View} from 'react-native';
 import React from 'react';
 
 
-const Register = () => {
+const register = () => {
 
 
     return(
@@ -13,7 +13,7 @@ const Register = () => {
 }
 
 
-export default Register
+export default register
 
 const styles = StyleSheet.create({
     
