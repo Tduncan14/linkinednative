@@ -1,7 +1,7 @@
 import {
     StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable
 } from 'react-native';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import {useRouter} from 'expo-router';
