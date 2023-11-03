@@ -4,12 +4,14 @@ import {
 import { useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import {useRouter} from 'expo-router';
 
 
 const login = () => {
 
     const { email, setEmail } = useState('');
     const { password, setPassword } = useState('')
+    const router = useRouter();
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "White", alignItems: "center" }}>
@@ -59,7 +61,7 @@ const login = () => {
                         </Pressable>
 
 
-                        <Pressable style={{ marginTop: 15 }}>
+                        <Pressable onPress={() => router.replace('/register')} style={{ marginTop: 15 }}>
                             <Text style={{ textAlign: "center", color: "gray", fontSize: 15 }}> Don't have account? Sign up</Text>
                         </Pressable>
                     </View>
