@@ -1,5 +1,5 @@
 import {
-    StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput
+    StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable
 } from 'react-native';
 import React from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -37,10 +37,23 @@ const login = () => {
 
                     <View style={{marginTop:16,flexDirection:"row", alignItems:"center",justifyContent:"space-between"}}>
                         <Text>Keep me logged in</Text>
-                        <Text>Forgot password</Text>
+                        <Text style={{color:"#007fff"}}>Forgot password ?</Text>
                     </View>
 
+                    {/* ending button */}
+
                 
+                   <View style={{marginTop:80}}>
+                    
+                     <Pressable style={{width:200, backgroundColor:"#0072b1",borderRadius:6,marginLeft:"auto",marginRight:"auto",padding:15}}>
+                        <Text style={{textAlign:"center" ,color:"white", fontSize:16}}>Login</Text>
+                     </Pressable>
+
+
+                     <Pressable style={{marginTop:15}}>
+                        <Text style={{textAlign:"center",color:"gray",fontSize:15}}> Don't have account? Sign up</Text>
+                     </Pressable>
+                   </View>
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
