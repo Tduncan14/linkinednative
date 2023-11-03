@@ -93,12 +93,31 @@ const sendVerificationEmail = async(email,verificationToken) =>{
             user:"windbreeze12@gmail.com",
             pass:process.env.PASSCODE
         }
-    })
+    });
+
+    //finishing complete your email
+
+    const mailOptions ={
+        from:"yourfriends@gmail",
+        to:email,
+        subject:"Email verfication",
+        text:`pleace click the following link to verfiy your email : http:/localhost:3000/verify/${verificationToken}`
+    }
 
 
+    // send the email
 
 
+    try{
 
+        await transporter.sendMail(mailOptions);
+        console.log("Verifcation email sent successfully")
+
+    }
+    catch(err){
+        console.log(err)
+        res.status(500).json({message:'error sending the email'})
+    }
 }
 
 
