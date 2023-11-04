@@ -26,11 +26,16 @@ mongoose.connect(process.env.MONGOURI,{useNewUrlParser:true, useUnifiedTopology:
 
 
 
+
+
+
 // endpoint to register user in the backend
 
 
 
 app.post("/register", async(req,res) => {
+
+    console.log(req.body,'this is register body')
 
     try{
         const{name,email,profileImage,password} = req.body
@@ -40,7 +45,7 @@ app.post("/register", async(req,res) => {
         const existingUser = await User.findOne({email});
 
 
-        if(existUser){
+        if(existingUser){
             console.log('email already taken')
             res.status(400).json({message:"email already registered"})
         }
@@ -74,8 +79,8 @@ app.post("/register", async(req,res) => {
 
     }
 
-    catch(err){
-        console.log('this erroring resigter user','err')
+    catch(error){
+        console.log('this erroring resigter user','err', `${error}`)
         res.status(500).json({message:"Registration failure"})
     }
 })
@@ -119,6 +124,50 @@ const sendVerificationEmail = async(email,verificationToken) =>{
         res.status(500).json({message:'error sending the email'})
     }
 }
+
+//  more api endpoint
+
+// api to indentify email
+
+app.get(' /verify/:token',async(req,res)=> {
+
+    try{
+        const token = req.params.token;
+
+        const user = await User.findOne({verificationToken:token});
+
+        if(!user){
+            return res.status(404).json({message:"Invalid verification token"})
+        }
+
+
+        // mark the user as verified
+        user.verified = true;
+        user.verificationToken = undefined
+
+
+        await user.save()
+
+
+        res.status(200).json({message:'Emailed verfication succesful' })
+
+
+
+
+
+    }
+    catch(err){
+
+        res.status(500).json({message:"email vertification fialed"})
+    }
+
+
+})
+
+
+
+
+
 
 
 app.listen(port,()=>{
