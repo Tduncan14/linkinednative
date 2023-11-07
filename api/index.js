@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const User = require('./models/user');
 const Post = require('./models/post');
+const jwt = require('jsonwebtoken');
 require('dotenv').config()
 
 
@@ -86,6 +87,61 @@ app.post("/register", async(req,res) => {
 })
 
 
+
+
+
+// generate the secretkey
+
+
+const generateSecretKey = () => {
+
+    const secretKey = crypto.randomBytes(32).toString('hex')
+    return secretKey;
+
+}
+
+const secretKey = generateSecretKey()
+
+
+
+
+
+
+// login endpoint to user
+app.post('/login',async(req,res) => {
+
+    try{
+
+        const {email,password}  = req.body;
+
+
+        const user = await User.findOne({email})
+
+        if(!user){
+            return res.status(401).json({message:"Invalid email or password"})
+        } 
+        // check if password is correct
+        if(user.password !== password){
+            return res.status(401).json({message:"Invalid password or email"})
+        }
+
+          const token = jwt.sign({userId:user._id},secretKey);
+
+
+          res.status(200).json({token,message:'successfully signed it'})
+
+    }
+
+    catch(err){
+
+        res.status(500).json({message:"Login failure"})
+
+    }
+})
+
+
+
+
 // to send the email
 
 const sendVerificationEmail = async(email,verificationToken) =>{
@@ -106,7 +162,7 @@ const sendVerificationEmail = async(email,verificationToken) =>{
         from:"yourfriends@gmail",
         to:email,
         subject:"Email verfication",
-        text:`pleace click the following link to verfiy your email : http:/localhost:3000/verify/${verificationToken}`
+        text:`pleace click the following link to verfiy your email : http:/localhost:8000/verify/${verificationToken}`
     }
 
 
@@ -129,8 +185,8 @@ const sendVerificationEmail = async(email,verificationToken) =>{
 
 // api to indentify email
 
-app.get(' /verify/:token',async(req,res)=> {
-
+app.get('/verify/:token',async(req,res)=> {
+    
     try{
         const token = req.params.token;
 

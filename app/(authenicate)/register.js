@@ -26,7 +26,7 @@ const register = () => {
             profileImage:image
         }
 
-        axios.post("http://ip-config:8000/register",user).then((response) => {
+        axios.post("",user).then((response) => {
 
         console.log(response);
 
