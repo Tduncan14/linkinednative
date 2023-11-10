@@ -222,7 +222,75 @@ app.get('/verify/:token',async(req,res)=> {
 
 
 
+//  getting user's profile
 
+
+app.get('/profile/:userId', async(req,res) => {
+
+
+    try{
+            const userId = req.params.userId;
+
+            const user = await User.findById(userId)
+
+
+            if(!user){
+                return res.status(404).json({message:'user not found'})
+            }
+            res.status(200).json({user})
+    }
+
+    catch(err){
+        res.status(500).json({message:'Error retrieving user profile'})
+    }
+
+
+
+
+})
+
+
+// gets  alls users and show them accept the user
+
+
+app.get("/users/:userId", async(req,res) => {
+
+    try{
+        const loggedInUserId = req.params.userId;
+
+
+        // fetch the logged in usres connections
+
+        const loggedInuser = await User.findById(loggedInUserId).populate("connections","_id");
+
+        if(!loggedInuser){
+             return res.status(400).json({message:'User not found'})
+        } 
+
+        //  get the ids of the connected user
+
+        const connectedUsersIds = loggedInuser.connections.map((connection) => connection._id);
+
+
+        //  find the users who are not connected to the loggin in id
+ 
+
+         const users = await User.find({
+            _id:{$ne:loggedInUserId, $nin:connectedUsersIds}
+         })
+
+
+         res.status(200).json(users)
+
+
+    }
+
+
+    catch(err){
+        console.log('error retireving errors', error);
+        res.status(500).json({message:'Error retrieving users'})
+    }
+})
 
 
 
